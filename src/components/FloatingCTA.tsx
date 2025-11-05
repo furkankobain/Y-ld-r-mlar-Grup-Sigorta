@@ -13,7 +13,7 @@ export default function FloatingCTA() {
       </a>
       <a
         href={`tel:${siteConfig.phone.tel}`}
-        className="rounded-full bg-zinc-900 text-white px-4 py-3 shadow hover:bg-zinc-800 text-sm"
+        className="rounded-full bg-zinc-700 text-white px-4 py-3 shadow hover:bg-zinc-600 text-sm"
       >
         Ara: {siteConfig.phone.display}
       </a>

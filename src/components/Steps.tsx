@@ -10,7 +10,7 @@ export default function Steps() {
       <div className="mt-6 grid gap-4 md:grid-cols-3">
         {steps.map((s) => (
           <div key={s.n} className="rounded-xl border bg-white p-5">
-            <div className="h-10 w-10 rounded-full bg-zinc-900 text-white flex items-center justify-center text-sm font-semibold">{s.n}</div>
+            <div className="h-10 w-10 rounded-full bg-zinc-700 text-white flex items-center justify-center text-sm font-semibold">{s.n}</div>
             <div className="mt-3 font-medium">{s.t}</div>
             <div className="text-sm text-zinc-600">{s.d}</div>
           </div>
