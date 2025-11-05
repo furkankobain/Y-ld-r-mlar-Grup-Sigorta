@@ -1,4 +1,5 @@
 import TeklifForm from "@/components/TeklifForm";
+import { Suspense } from "react";
 
 export default function Page({
   searchParams,
@@ -12,7 +13,9 @@ export default function Page({
       <h1 className="text-3xl font-semibold">Teklif Al</h1>
       <p className="mt-2 text-zinc-700">Bilgilerinizi iletin, size özel en iyi teklifi sunalım.</p>
 
-      <TeklifForm />
+      <Suspense fallback={<div className="mt-6 text-sm text-zinc-500">Form yükleniyor…</div>}>
+        <TeklifForm />
+      </Suspense>
 
       {status === "1" && (
         <div className="mt-4 text-sm text-green-600">Talebiniz alındı. En kısa sürede dönüş yapacağız.</div>
