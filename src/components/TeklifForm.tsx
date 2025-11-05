@@ -229,12 +229,6 @@ export default function TeklifForm() {
         </span>
       </label>
       <button className="rounded-md bg-zinc-900 px-5 py-3 text-white">Gönder</button>
-    </form>
-  );
-}
-        </label>
-        <button className="rounded-md bg-zinc-900 px-5 py-3 text-white">Gönder</button>
-      </form>
-    </>
+</form>
   );
 }
