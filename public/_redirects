@@ -1,0 +1,4 @@
+# Force HTTPS
+http://* https://:splat 301!
+# Redirect www to apex
+https://www.yildirimlargrupsigorta.com.tr/* https://yildirimlargrupsigorta.com.tr/:splat 301!
