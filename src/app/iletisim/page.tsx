@@ -3,7 +3,8 @@ export const metadata = { title: "İletişim" };
 import { siteConfig } from "@/config/site";
 
 export default function Page() {
-  const mapSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d0!2d28.97953!3d41.015137!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z!5e0!3m2!1str!2str!4v0000000000000";
+  const q = encodeURIComponent("Saracalar Mah., Otonomi Sitesi, A1 Blok, Akyurt, Ankara");
+  const mapSrc = `https://www.google.com/maps?q=${q}&output=embed`;
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 grid gap-8 md:grid-cols-2">
       <div>

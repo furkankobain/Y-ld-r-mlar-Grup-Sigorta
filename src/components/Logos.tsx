@@ -1,6 +1,6 @@
 export default function Logos() {
   const logos = [
-    "AXA", "Allianz", "Anadolu", "HDI", "Sompo", "Mapfre"
+    "AK", "Sompo", "Koru", "Doğa", "Atlas", "Unico", "Mapfre", "Türkiye", "Allianz"
   ];
   return (
     <div className="mt-10 border-y py-6 bg-white/70">

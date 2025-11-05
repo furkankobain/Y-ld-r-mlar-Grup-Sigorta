@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingCTA from "@/components/FloatingCTA";
+import MobileBar from "@/components/MobileBar";
 import { siteConfig } from "@/config/site";
 
 const geistSans = Geist({
@@ -71,6 +72,7 @@ export default function RootLayout({
         <main className="min-h-[calc(100vh-280px)]">{children}</main>
         <Footer />
         <FloatingCTA />
+        <MobileBar />
         {GA && (
           <>
             <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA}`}></script>
