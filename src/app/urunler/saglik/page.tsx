@@ -18,6 +18,20 @@ export default function Page() {
           Sağlık için Teklif Al
         </Link>
       </div>
+      <div className="mt-10">
+        <h2 className="text-xl font-medium">Sık Sorulanlar</h2>
+        <div className="mt-4 grid gap-3">
+          {[
+            { q: "Tamamlayıcı sağlık nedir?", a: "SGK ile anlaşmalı özel hastanelerde fark ücretini karşılar." },
+            { q: "Bekleme süresi var mı?", a: "Planlara göre değişir; detay için bize ulaşın." },
+          ].map((i) => (
+            <details key={i.q} className="rounded-lg border bg-white p-4">
+              <summary className="cursor-pointer font-medium">{i.q}</summary>
+              <p className="mt-2 text-sm text-zinc-600">{i.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

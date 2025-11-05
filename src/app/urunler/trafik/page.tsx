@@ -18,6 +18,20 @@ export default function Page() {
           Trafik için Teklif Al
         </Link>
       </div>
+      <div className="mt-10">
+        <h2 className="text-xl font-medium">Sık Sorulanlar</h2>
+        <div className="mt-4 grid gap-3">
+          {[
+            { q: "Hasarsızlık indirimi korunur mu?", a: "Şirket ve poliçe yapısına göre değişir; koruma eklenebilir." },
+            { q: "Taksit var mı?", a: "Kredi kartı ile taksit seçenekleri sunuyoruz." },
+          ].map((i) => (
+            <details key={i.q} className="rounded-lg border bg-white p-4">
+              <summary className="cursor-pointer font-medium">{i.q}</summary>
+              <p className="mt-2 text-sm text-zinc-600">{i.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -62,6 +62,8 @@ export default function RootLayout({
     sameAs: siteConfig.sameAs,
   };
 
+  const GA = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="tr">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-zinc-900`}>
@@ -69,6 +71,16 @@ export default function RootLayout({
         <main className="min-h-[calc(100vh-280px)]">{children}</main>
         <Footer />
         <FloatingCTA />
+        {GA && (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA}`}></script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config','${GA}');`,
+              }}
+            />
+          </>
+        )}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

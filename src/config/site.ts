@@ -26,6 +26,8 @@ export const siteConfig = {
     { label: "Kasko", href: "/urunler/kasko" },
     { label: "Konut/DASK", href: "/urunler/konut-dask" },
     { label: "Sağlık", href: "/urunler/saglik" },
+    { label: "Hakkımızda", href: "/hakkimizda" },
+    { label: "İletişim", href: "/iletisim" },
     { label: "Teklif Al", href: "/teklif-al" },
   ],
 } as const;

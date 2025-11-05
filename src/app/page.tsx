@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
+import Logos from "@/components/Logos";
 
 export default function Home() {
   return (
@@ -37,6 +38,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <Logos />
 
       {/* ÜRÜNLER */}
       <section id="urunler" className="mx-auto max-w-6xl px-4 py-16">

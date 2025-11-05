@@ -18,6 +18,20 @@ export default function Page() {
           Konut/DASK için Teklif Al
         </Link>
       </div>
+      <div className="mt-10">
+        <h2 className="text-xl font-medium">Sık Sorulanlar</h2>
+        <div className="mt-4 grid gap-3">
+          {[
+            { q: "DASK zorunlu mu?", a: "Evet, deprem teminatı için zorunludur; konut sigortası isteğe bağlıdır." },
+            { q: "Eşya teminatı kapsamı?", a: "Yangın, hırsızlık, su baskını gibi riskler poliçeye göre karşılanır." },
+          ].map((i) => (
+            <details key={i.q} className="rounded-lg border bg-white p-4">
+              <summary className="cursor-pointer font-medium">{i.q}</summary>
+              <p className="mt-2 text-sm text-zinc-600">{i.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
