@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import Logos from "@/components/Logos";
+import Steps from "@/components/Steps";
+import Testimonials from "@/components/Testimonials";
+import PromoCTA from "@/components/PromoCTA";
 
 export default function Home() {
   return (
@@ -41,6 +44,8 @@ export default function Home() {
       <Logos />
 
       {/* ÜRÜNLER */}
+      <Steps />
+
       <section id="urunler" className="mx-auto max-w-6xl px-4 py-16">
         <h2 className="text-2xl font-semibold">Öne Çıkan Ürünler</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -58,6 +63,9 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <Testimonials />
+      <PromoCTA />
 
       {/* SSS */}
       <section className="mx-auto max-w-6xl px-4 pb-16">
