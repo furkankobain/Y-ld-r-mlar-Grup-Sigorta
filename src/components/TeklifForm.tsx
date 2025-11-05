@@ -8,11 +8,19 @@ export default function TeklifForm() {
   const params = useSearchParams();
   const defaultBrans = (params.get("brans") || "Trafik") as typeof BRANSLAR[number];
   const [brans, setBrans] = useState<typeof BRANSLAR[number]>(defaultBrans);
+  const [noPlate, setNoPlate] = useState(false);
+  const [a, b] = [Math.floor(2 + Math.random() * 8), Math.floor(2 + Math.random() * 8)];
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
       const fd = new FormData(e.currentTarget);
+      // simple captcha check
+      const sum = Number(fd.get("captcha"));
+      if (sum !== a + b) {
+        alert("Güvenlik kodu hatalı");
+        return;
+      }
       const payload = Object.fromEntries(fd.entries());
       await fetch("/api/forms-webhook", {
         method: "POST",
@@ -29,11 +37,16 @@ export default function TeklifForm() {
     <>
       <form className="mt-6 grid gap-4" onSubmit={handleSubmit}>
 
-        <div className="grid gap-1">
-          <label className="text-sm" htmlFor="adsoyad">
-            Ad Soyad
-          </label>
-          <input id="adsoyad" name="adsoyad" required className="rounded-md border px-3 py-2" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid gap-1">
+            <label className="text-sm" htmlFor="ad">Ad *</label>
+            <input id="ad" name="ad" required className="rounded-md border px-3 py-2" placeholder="Adınız..." />
+          </div>
+          <div className="grid gap-1">
+            <label className="text-sm" htmlFor="soyad">Soyad *</label>
+            <input id="soyad" name="soyad" required className="rounded-md border px-3 py-2" placeholder="Soyadınız..." />
+          </div>
+        </div>
         </div>
         <div className="grid gap-1">
           <label className="text-sm" htmlFor="telefon">
@@ -41,11 +54,19 @@ export default function TeklifForm() {
           </label>
           <input id="telefon" name="telefon" required className="rounded-md border px-3 py-2" />
         </div>
-        <div className="grid gap-1">
-          <label className="text-sm" htmlFor="email">
-            E-posta
-          </label>
-          <input id="email" type="email" name="email" className="rounded-md border px-3 py-2" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="grid gap-1">
+            <label className="text-sm" htmlFor="tckn">TC Kimlik No *</label>
+            <input id="tckn" name="tckn" required className="rounded-md border px-3 py-2" placeholder="TC Kimlik Numaranız..." />
+          </div>
+          <div className="grid gap-1">
+            <label className="text-sm" htmlFor="vergiNo">Vergi No</label>
+            <input id="vergiNo" name="vergiNo" className="rounded-md border px-3 py-2" placeholder="Vergi Numaranız..." />
+          </div>
+          <div className="grid gap-1">
+            <label className="text-sm" htmlFor="meslek">Mesleğiniz</label>
+            <input id="meslek" name="meslek" className="rounded-md border px-3 py-2" />
+          </div>
         </div>
         <div className="grid gap-1">
           <label className="text-sm" htmlFor="brans">
@@ -68,39 +89,64 @@ export default function TeklifForm() {
         {/* Ürün bazlı alanlar */}
         {brans === "Trafik" && (
           <>
-            <div className="grid gap-1">
-              <label className="text-sm" htmlFor="plaka">Plaka</label>
-              <input id="plaka" name="plaka" required className="rounded-md border px-3 py-2" placeholder="06 ABC 123" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="plaka">Plaka *</label>
+                <input id="plaka" name="plaka" required={!noPlate} disabled={noPlate} className="rounded-md border px-3 py-2" placeholder="06 ABC 123" />
+              </div>
+              <label className="inline-flex items-center gap-2 text-sm">
+                <input type="checkbox" onChange={(e)=>setNoPlate(e.target.checked)} /> Plakasız Araç
+              </label>
             </div>
-            <div className="grid gap-1">
-              <label className="text-sm" htmlFor="tckn">TCKN (opsiyonel)</label>
-              <input id="tckn" name="tckn" className="rounded-md border px-3 py-2" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="ruhsat">Ruhsat Seri ve Sıra No</label>
+                <input id="ruhsat" name="ruhsat" className="rounded-md border px-3 py-2" placeholder="ABC123456" />
+              </div>
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="asbis">Asbis Referans No</label>
+                <input id="asbis" name="asbis" className="rounded-md border px-3 py-2" />
+              </div>
             </div>
+            <div className="rounded-md border bg-zinc-50 p-3 text-xs text-zinc-600">Bu form ile "Kasko Teklifi" de almak istiyorum <input type="checkbox" name="crossKasko" className="ml-2" /></div>
           </>
         )}
         {brans === "Kasko" && (
           <>
-            <div className="grid gap-1">
-              <label className="text-sm" htmlFor="plaka">Plaka</label>
-              <input id="plaka" name="plaka" required className="rounded-md border px-3 py-2" />
-            </div>
-            <div className="grid gap-1">
-              <label className="text-sm" htmlFor="markaModel">Marka/Model</label>
-              <input id="markaModel" name="markaModel" className="rounded-md border px-3 py-2" />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
               <div className="grid gap-1">
-                <label className="text-sm" htmlFor="yil">Model Yılı</label>
-                <input id="yil" name="yil" className="rounded-md border px-3 py-2" />
+                <label className="text-sm" htmlFor="plaka">Plaka *</label>
+                <input id="plaka" name="plaka" required={!noPlate} disabled={noPlate} className="rounded-md border px-3 py-2" />
+              </div>
+              <label className="inline-flex items-center gap-2 text-sm">
+                <input type="checkbox" onChange={(e)=>setNoPlate(e.target.checked)} /> Plakasız Araç
+              </label>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="marka">Araç Markası *</label>
+                <input id="marka" name="marka" required className="rounded-md border px-3 py-2" />
               </div>
               <div className="grid gap-1">
-                <label className="text-sm" htmlFor="kullanim">Kullanım</label>
-                <select id="kullanim" name="kullanim" className="rounded-md border px-3 py-2">
-                  <option>Bireysel</option>
-                  <option>Ticari</option>
-                </select>
+                <label className="text-sm" htmlFor="model">Araç Modeli *</label>
+                <input id="model" name="model" required className="rounded-md border px-3 py-2" />
+              </div>
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="yil">Araç Yılı *</label>
+                <input id="yil" name="yil" required className="rounded-md border px-3 py-2" />
               </div>
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="ruhsat">Ruhsat Seri/Sıra No</label>
+                <input id="ruhsat" name="ruhsat" className="rounded-md border px-3 py-2" />
+              </div>
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="asbis">Asbis Ref. No</label>
+                <input id="asbis" name="asbis" className="rounded-md border px-3 py-2" />
+              </div>
+            </div>
+            <div className="rounded-md border bg-zinc-50 p-3 text-xs text-zinc-600">Bu form ile "Trafik Sigortası Teklifi" de almak istiyorum <input type="checkbox" name="crossTrafik" className="ml-2" /></div>
           </>
         )}
         {brans === "Konut/DASK" && (
@@ -168,6 +214,20 @@ export default function TeklifForm() {
             Not
           </label>
           <textarea id="mesaj" name="mesaj" rows={4} className="rounded-md border px-3 py-2" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid gap-1">
+            <label className="text-sm" htmlFor="email">E‑posta Adresiniz *</label>
+            <input id="email" type="email" name="email" required className="rounded-md border px-3 py-2" placeholder="E-posta Adresiniz..." />
+          </div>
+          <div className="grid gap-1">
+            <label className="text-sm" htmlFor="telefon">Telefon Numaranız *</label>
+            <input id="telefon" name="telefon" required className="rounded-md border px-3 py-2" placeholder="Telefon Numaranız..." />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
+          <div className="text-sm text-zinc-700">Güvenlik Kodu: {a} + {b} = ?</div>
+          <input name="captcha" className="rounded-md border px-3 py-2" placeholder="Cevap" />
         </div>
         <label className="flex items-start gap-2 text-sm">
           <input type="checkbox" name="kvkk" value="on" required />
