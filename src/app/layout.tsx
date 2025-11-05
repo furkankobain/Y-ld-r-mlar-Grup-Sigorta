@@ -33,9 +33,25 @@ export const metadata: Metadata = {
       "Tüm sigorta branşlarında karşılaştırmalı teklif ve uzman acente desteği.",
     siteName: siteConfig.name,
     locale: "tr_TR",
+    images: [
+      {
+        url: `${siteConfig.baseUrl}/og-image.svg`,
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} • Sigorta Teklifleri`,
+        type: "image/svg+xml",
+      },
+    ],
   },
   alternates: {
     canonical: siteConfig.baseUrl,
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/logo.svg", type: "image/svg+xml" },
+    ],
+    shortcut: ["/favicon.ico"],
   },
 };
 

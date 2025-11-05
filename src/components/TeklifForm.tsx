@@ -3,20 +3,22 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const BRANSLAR = ["Trafik", "Kasko", "Konut/DASK", "Sağlık", "Diğer"] as const;
+const isBrans = (v: string): v is (typeof BRANSLAR)[number] => (BRANSLAR as readonly string[]).includes(v);
 
 export default function TeklifForm() {
   const params = useSearchParams();
   const defaultBrans = (params.get("brans") || "Trafik") as (typeof BRANSLAR)[number];
   const [brans, setBrans] = useState<(typeof BRANSLAR)[number]>(defaultBrans);
   const [noPlate, setNoPlate] = useState(false);
-  const [a, b] = [Math.floor(2 + Math.random() * 8), Math.floor(2 + Math.random() * 8)];
+  const [captchaA] = useState(() => Math.floor(2 + Math.random() * 8));
+  const [captchaB] = useState(() => Math.floor(2 + Math.random() * 8));
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
       const fd = new FormData(e.currentTarget);
       const sum = Number(fd.get("captcha"));
-      if (sum !== a + b) {
+      if (sum !== captchaA + captchaB) {
         alert("Güvenlik kodu hatalı");
         return;
       }
@@ -52,7 +54,7 @@ export default function TeklifForm() {
           name="brans"
           className="rounded-md border px-3 py-2"
           value={brans}
-          onChange={(e) => setBrans(e.target.value as any)}
+          onChange={(e) => setBrans(isBrans(e.target.value) ? e.target.value : "Diğer")}
         >
           {BRANSLAR.map((b) => (
             <option key={b} value={b}>{b}</option>
@@ -96,7 +98,7 @@ export default function TeklifForm() {
               <input id="asbis" name="asbis" className="rounded-md border px-3 py-2" />
             </div>
           </div>
-          <div className="rounded-md border bg-zinc-50 p-3 text-xs text-zinc-600">Bu form ile "Kasko Teklifi" de almak istiyorum <input type="checkbox" name="crossKasko" className="ml-2" /></div>
+          <div className="rounded-md border bg-zinc-50 p-3 text-xs text-zinc-600">Bu form ile &quot;Kasko Teklifi&quot; de almak istiyorum <input type="checkbox" name="crossKasko" className="ml-2" /></div>
         </>
       )}
 
@@ -135,7 +137,7 @@ export default function TeklifForm() {
               <input id="asbis" name="asbis" className="rounded-md border px-3 py-2" />
             </div>
           </div>
-          <div className="rounded-md border bg-zinc-50 p-3 text-xs text-zinc-600">Bu form ile "Trafik Sigortası Teklifi" de almak istiyorum <input type="checkbox" name="crossTrafik" className="ml-2" /></div>
+          <div className="rounded-md border bg-zinc-50 p-3 text-xs text-zinc-600">Bu form ile &quot;Trafik Sigortası Teklifi&quot; de almak istiyorum <input type="checkbox" name="crossTrafik" className="ml-2" /></div>
         </>
       )}
 
@@ -218,7 +220,7 @@ export default function TeklifForm() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
-        <div className="text-sm text-zinc-700">Güvenlik Kodu: {a} + {b} = ?</div>
+        <div className="text-sm text-zinc-700">Güvenlik Kodu: {captchaA} + {captchaB} = ?</div>
         <input name="captcha" className="rounded-md border px-3 py-2" placeholder="Cevap" />
       </div>
 

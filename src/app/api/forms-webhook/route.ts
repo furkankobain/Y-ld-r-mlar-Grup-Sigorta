@@ -1,5 +1,7 @@
 import type { NextRequest } from "next/server";
 
+type AnyDict = Record<string, unknown>;
+
 const BRANS_BANNER: Record<string, { title: string; color: string }> = {
   "Trafik": { title: "Trafik Sigortası", color: "#2563eb" },
   "Kasko": { title: "Kasko Sigortası", color: "#16a34a" },
@@ -37,17 +39,31 @@ function buildHtml(name: string, brans?: string) {
   </div>`;
 }
 
+function getProp(obj: unknown, key: string): unknown {
+  return obj && typeof obj === "object" ? (obj as AnyDict)[key] : undefined;
+}
+function pickString(v: unknown): string | undefined {
+  return typeof v === "string" ? v : undefined;
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json().catch(() => ({} as any));
-    const payload = (body && (body.payload || body)) as any;
-    const data = (payload && (payload.data || payload)) as any;
+    const bodyUnknown = (await req.json().catch(() => ({}))) as unknown;
+    const payloadUnknown = getProp(bodyUnknown, "payload") ?? bodyUnknown;
+    const dataUnknown = getProp(payloadUnknown, "data") ?? payloadUnknown;
 
-    const email = data?.email || data?.Email || data?.Eposta;
+    const email =
+      pickString(getProp(dataUnknown, "email")) ||
+      pickString(getProp(dataUnknown, "Email")) ||
+      pickString(getProp(dataUnknown, "Eposta"));
     if (!email) return Response.json({ ok: true, skipped: "no email" });
 
-    const name = data?.adsoyad || (data?.ad ? `${data.ad} ${data.soyad || ""}`.trim() : data?.name) || "";
-    const brans = data?.brans || data?.Brans;
+    const ad = pickString(getProp(dataUnknown, "ad"));
+    const soyad = pickString(getProp(dataUnknown, "soyad"));
+    const name =
+      pickString(getProp(dataUnknown, "adsoyad")) ||
+      (ad ? `${ad} ${soyad || ""}`.trim() : pickString(getProp(dataUnknown, "name")) || "");
+    const brans = pickString(getProp(dataUnknown, "brans")) || pickString(getProp(dataUnknown, "Brans"));
 
     const apiKey = process.env.BREVO_API_KEY;
     const fromEmail = process.env.MAIL_FROM || "noreply@yildirimlargrupsigorta.com.tr";
