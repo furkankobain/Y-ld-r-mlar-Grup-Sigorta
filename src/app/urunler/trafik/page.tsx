@@ -14,7 +14,7 @@ export default function Page() {
         limitleri dahilinde güvence altına alır. Araç ve sürücü bilgilerinize göre en uygun fiyatı sunarız.
       </p>
       <div className="mt-6">
-        <Link href="/teklif-al" className="inline-flex rounded-md bg-zinc-900 px-5 py-3 text-white hover:bg-zinc-800">
+<Link href="/teklif-al?brans=Trafik" className="inline-flex rounded-md bg-zinc-900 px-5 py-3 text-white hover:bg-zinc-800">
           Trafik için Teklif Al
         </Link>
       </div>

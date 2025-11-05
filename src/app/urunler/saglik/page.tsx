@@ -14,7 +14,7 @@ export default function Page() {
         alternatifi sunarız. Anlaşmalı hastaneler ve kapsam hakkında detaylı bilgi için bize ulaşın.
       </p>
       <div className="mt-6">
-        <Link href="/teklif-al" className="inline-flex rounded-md bg-zinc-900 px-5 py-3 text-white hover:bg-zinc-800">
+<Link href="/teklif-al?brans=Sağlık" className="inline-flex rounded-md bg-zinc-900 px-5 py-3 text-white hover:bg-zinc-800">
           Sağlık için Teklif Al
         </Link>
       </div>

@@ -1,8 +1,14 @@
 "use client";
+import { useSearchParams } from "next/navigation";
+import { useMemo, useState } from "react";
 
 const BRANSLAR = ["Trafik", "Kasko", "Konut/DASK", "Sağlık", "Diğer"] as const;
 
 export default function TeklifForm() {
+  const params = useSearchParams();
+  const defaultBrans = (params.get("brans") || "Trafik") as typeof BRANSLAR[number];
+  const [brans, setBrans] = useState<typeof BRANSLAR[number]>(defaultBrans);
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
@@ -45,7 +51,13 @@ export default function TeklifForm() {
           <label className="text-sm" htmlFor="brans">
             Branş
           </label>
-          <select id="brans" name="brans" className="rounded-md border px-3 py-2">
+          <select
+            id="brans"
+            name="brans"
+            className="rounded-md border px-3 py-2"
+            value={brans}
+            onChange={(e) => setBrans(e.target.value as any)}
+          >
             {BRANSLAR.map((b) => (
               <option key={b} value={b}>
                 {b}
@@ -53,12 +65,104 @@ export default function TeklifForm() {
             ))}
           </select>
         </div>
-        <div className="grid gap-1">
-          <label className="text-sm" htmlFor="plakaOrTc">
-            Plaka / TCKN (opsiyonel)
-          </label>
-          <input id="plakaOrTc" name="plakaOrTc" className="rounded-md border px-3 py-2" />
-        </div>
+        {/* Ürün bazlı alanlar */}
+        {brans === "Trafik" && (
+          <>
+            <div className="grid gap-1">
+              <label className="text-sm" htmlFor="plaka">Plaka</label>
+              <input id="plaka" name="plaka" required className="rounded-md border px-3 py-2" placeholder="06 ABC 123" />
+            </div>
+            <div className="grid gap-1">
+              <label className="text-sm" htmlFor="tckn">TCKN (opsiyonel)</label>
+              <input id="tckn" name="tckn" className="rounded-md border px-3 py-2" />
+            </div>
+          </>
+        )}
+        {brans === "Kasko" && (
+          <>
+            <div className="grid gap-1">
+              <label className="text-sm" htmlFor="plaka">Plaka</label>
+              <input id="plaka" name="plaka" required className="rounded-md border px-3 py-2" />
+            </div>
+            <div className="grid gap-1">
+              <label className="text-sm" htmlFor="markaModel">Marka/Model</label>
+              <input id="markaModel" name="markaModel" className="rounded-md border px-3 py-2" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="yil">Model Yılı</label>
+                <input id="yil" name="yil" className="rounded-md border px-3 py-2" />
+              </div>
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="kullanim">Kullanım</label>
+                <select id="kullanim" name="kullanim" className="rounded-md border px-3 py-2">
+                  <option>Bireysel</option>
+                  <option>Ticari</option>
+                </select>
+              </div>
+            </div>
+          </>
+        )}
+        {brans === "Konut/DASK" && (
+          <>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="il">İl</label>
+                <input id="il" name="il" className="rounded-md border px-3 py-2" />
+              </div>
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="ilce">İlçe</label>
+                <input id="ilce" name="ilce" className="rounded-md border px-3 py-2" />
+              </div>
+            </div>
+            <div className="grid gap-1">
+              <label className="text-sm" htmlFor="adres">Adres</label>
+              <input id="adres" name="adres" className="rounded-md border px-3 py-2" />
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="m2">m²</label>
+                <input id="m2" name="m2" className="rounded-md border px-3 py-2" />
+              </div>
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="yapiYili">Yapı Yılı</label>
+                <input id="yapiYili" name="yapiYili" className="rounded-md border px-3 py-2" />
+              </div>
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="sigortaTuru">Sigorta Türü</label>
+                <select id="sigortaTuru" name="sigortaTuru" className="rounded-md border px-3 py-2">
+                  <option>Konut</option>
+                  <option>DASK</option>
+                  <option>Konut + DASK</option>
+                </select>
+              </div>
+            </div>
+          </>
+        )}
+        {brans === "Sağlık" && (
+          <>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="dogumYili">Doğum Yılı</label>
+                <input id="dogumYili" name="dogumYili" className="rounded-md border px-3 py-2" />
+              </div>
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="cinsiyet">Cinsiyet</label>
+                <select id="cinsiyet" name="cinsiyet" className="rounded-md border px-3 py-2">
+                  <option>Erkek</option>
+                  <option>Kadın</option>
+                </select>
+              </div>
+              <div className="grid gap-1">
+                <label className="text-sm" htmlFor="sgk">SGK</label>
+                <select id="sgk" name="sgk" className="rounded-md border px-3 py-2">
+                  <option>Var</option>
+                  <option>Yok</option>
+                </select>
+              </div>
+            </div>
+          </>
+        )}
         <div className="grid gap-1">
           <label className="text-sm" htmlFor="mesaj">
             Not

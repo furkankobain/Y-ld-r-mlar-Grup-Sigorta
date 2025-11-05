@@ -14,7 +14,7 @@ export default function Page() {
         hırsızlık, su baskını gibi risklere karşı güvence altına alın.
       </p>
       <div className="mt-6">
-        <Link href="/teklif-al" className="inline-flex rounded-md bg-zinc-900 px-5 py-3 text-white hover:bg-zinc-800">
+<Link href="/teklif-al?brans=Konut/DASK" className="inline-flex rounded-md bg-zinc-900 px-5 py-3 text-white hover:bg-zinc-800">
           Konut/DASK için Teklif Al
         </Link>
       </div>

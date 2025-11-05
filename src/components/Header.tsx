@@ -9,7 +9,10 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/50">
       <div className="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="text-lg font-semibold">{siteConfig.name}</Link>
+        <Link href="/" className="text-lg font-semibold flex items-center gap-2">
+          <img src="/logo.svg" alt="logo" className="h-6 w-6" />
+          <span>{siteConfig.name}</span>
+        </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
           {siteConfig.nav.map((i) => (
             <Link key={i.href} href={i.href} className="hover:text-zinc-900 text-zinc-700">
