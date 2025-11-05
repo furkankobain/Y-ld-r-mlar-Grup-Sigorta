@@ -1,9 +1,9 @@
 type Testimonial = { name: string; text: string };
 
 const DATA: Testimonial[] = [
-  { name: "A. Yıldız", text: "Kasko teklifleri 10 dk içinde geldi, süreç çok hızlı ilerledi." },
-  { name: "M. Demir", text: "Hasar sürecinde her adımda bilgilendirildim, teşekkürler." },
-  { name: "S. Kaya", text: "Trafik + konut paketi ile uygun fiyat aldım." },
+  { name: "F. Kaymak", text: "Kasko teklifleri 10 dk içinde geldi, süreç çok hızlı ilerledi." },
+  { name: "D. Dinç", text: "Hasar sürecinde her adımda bilgilendirildim, teşekkürler." },
+  { name: "M. Yıldırım", text: "Trafik + konut paketi ile uygun fiyat aldım." },
 ];
 
 export default function Testimonials() {
